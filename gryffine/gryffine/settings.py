@@ -34,8 +34,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'api.apps.ApiConfig',
-    "django_tables2",
+    'django_tables2',
     'rest_framework',
     'records.apps.RecordsConfig',
     'django.contrib.admin',

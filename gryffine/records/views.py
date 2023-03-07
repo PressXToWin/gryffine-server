@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django_tables2.config import RequestConfig
 from django_tables2.export.export import TableExport
@@ -6,6 +7,7 @@ from .models import Record
 from .tables import LogsTable
 
 
+@login_required
 def index(request):
     order_by = request.GET.get("sort", '-id')
     per_page_options = (25, 50, 100, 200)
