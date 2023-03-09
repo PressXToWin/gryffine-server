@@ -48,4 +48,5 @@ def notify(sender, instance, raw, using, update_fields, **kwargs):
     message = str(instance)
     if TELEGRAM_KEY:
         ids = ExtendedUser.objects.all().values_list('telegram_id', flat=True)
+        ids = tuple(filter(None, ids))
         telegram_notify(ids, message=message)
