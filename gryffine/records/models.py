@@ -14,10 +14,6 @@ from django.dispatch import receiver
 load_dotenv()
 
 TELEGRAM_KEY = os.getenv('TELEGRAM_TOKEN')
-EMAIL_USERNAME = os.getenv('EMAIL_USERNAME')
-EMAIL_PASSWORD = os.getenv('EMAIL_USERNAME')
-SUBJECT = 'New login detected'
-
 
 class Record(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -46,12 +42,10 @@ def telegram_notify(tg_ids: tuple, message, key=TELEGRAM_KEY):
     for tg_id in tg_ids:
         requests.get(f'https://api.telegram.org/bot{key}/sendMessage?chat_id={tg_id}&text={message}')
 
-# Here will be email notify.
-    # send_mail(message=message, recipient_list=recipient_list, subject=subject, auth_user=auth_user, auth_password=auth_password)
-
 
 @receiver(post_save, sender=Record)
 def notify(sender, instance, raw, using, update_fields, **kwargs):
     message = str(instance)
-    ids = ExtendedUser.objects.all().values_list('telegram_id', flat=True)
-    telegram_notify(ids, message=message)
+    if TELEGRAM_KEY:
+        ids = ExtendedUser.objects.all().values_list('telegram_id', flat=True)
+        telegram_notify(ids, message=message)
