@@ -15,6 +15,7 @@ class Record(models.Model):
 
 class Rule(models.Model):
     country = CountryField(null=True, blank=True)
+    rhost = models.CharField(max_length=50, null=True, blank=True)
 
 
 class BlackListRule(Rule):

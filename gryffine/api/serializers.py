@@ -1,6 +1,3 @@
-import ipaddress
-import requests
-
 from rest_framework import serializers
 from .services import check_record
 from records.models import Record, BlackListRule, WhitelistRule

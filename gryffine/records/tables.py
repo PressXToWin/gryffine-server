@@ -10,8 +10,12 @@ class LogsTable(tables.Table):
     class Meta:
         model = Record
         exclude = ('id', )
+        # green #5bff64 red #ff5b5b
         row_attrs = {
-            "style": lambda record: "background-color: #5bff64" if record.is_successful else "background-color: #ff5b5b"
+            "style": lambda record: "background-color: gray" if not record.is_successful
+            else "background-color: orange" if record.is_suspicious is None
+            else "background-color: #5bff64" if not record.is_suspicious
+            else "background-color: #ff5b5b"
         }
         sequence = ('timestamp', 'hostname', 'service', 'user', 'rhost', 'country')
         attrs = {"class": "table",

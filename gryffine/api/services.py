@@ -1,4 +1,4 @@
-from records.models import Record, BlackListRule, WhitelistRule
+from records.models import BlackListRule, WhitelistRule
 import ipaddress
 import requests
 
@@ -15,6 +15,11 @@ def is_applying(data, ruleset):
     countries = ruleset.values_list('country', flat=True)
     if data['country'] in countries:
         return True
+    ip_subnets = ruleset.values_list('rhost', flat=True)
+    ip_subnets = [ipaddress.ip_network(ip) for ip in ip_subnets]
+    for subnet in ip_subnets:
+        if data['rhost'] in subnet:
+            return True
 
 
 def check_rules(data):
