@@ -10,3 +10,17 @@ class Record(models.Model):
     rhost = models.GenericIPAddressField(null=True, blank=True)
     country = CountryField(null=True, blank=True)
     is_successful = models.BooleanField(default=True)
+    is_suspicious = models.BooleanField(null=True, blank=True)
+
+
+class Rule(models.Model):
+    country = CountryField(null=True, blank=True)
+    rhost = models.CharField(max_length=50, null=True, blank=True)
+
+
+class BlackListRule(Rule):
+    pass
+
+
+class WhitelistRule(Rule):
+    pass
