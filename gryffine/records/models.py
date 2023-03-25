@@ -12,8 +12,9 @@ class Record(models.Model):
     rhost = models.GenericIPAddressField(null=True, blank=True)
     country = CountryField(null=True, blank=True)
     is_successful = models.BooleanField(default=True)
-
-    def __str__(self):
+    is_suspicious = models.BooleanField(null=True, blank=True)
+    
+  def __str__(self):
         message_text = ''
         if self.is_successful:
             message_text += 'Detected successful login '
@@ -29,3 +30,16 @@ class Record(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         telegram_notify(str(self))
+
+
+class Rule(models.Model):
+    country = CountryField(null=True, blank=True)
+    rhost = models.CharField(max_length=50, null=True, blank=True)
+
+
+class BlackListRule(Rule):
+    pass
+
+
+class WhitelistRule(Rule):
+    pass
