@@ -30,12 +30,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'records:index'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'users.apps.UsersConfig',
     'api.apps.ApiConfig',
-    "django_tables2",
+    'django_tables2',
     'rest_framework',
     'records.apps.RecordsConfig',
     'django.contrib.admin',
@@ -132,3 +135,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
