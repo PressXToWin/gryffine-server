@@ -1,19 +1,8 @@
 from django.db import models
 from django_countries.fields import CountryField
-from users.models import ExtendedUser
 
+from records.notifiers import telegram_notify
 
-import os
-import requests
-from dotenv import load_dotenv
-from django.core.mail import send_mail
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-
-load_dotenv()
-
-TELEGRAM_KEY = os.getenv('TELEGRAM_TOKEN')
 
 class Record(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -37,16 +26,6 @@ class Record(models.Model):
             message_text += f', country of origin {self.country.name}.\n'
         return message_text
 
-
-def telegram_notify(tg_ids: tuple, message, key=TELEGRAM_KEY):
-    for tg_id in tg_ids:
-        requests.get(f'https://api.telegram.org/bot{key}/sendMessage?chat_id={tg_id}&text={message}')
-
-
-@receiver(post_save, sender=Record)
-def notify(sender, instance, raw, using, update_fields, **kwargs):
-    message = str(instance)
-    if TELEGRAM_KEY:
-        ids = ExtendedUser.objects.all().values_list('telegram_id', flat=True)
-        ids = tuple(filter(None, ids))
-        telegram_notify(ids, message=message)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        telegram_notify(str(self))
