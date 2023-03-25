@@ -12,13 +12,16 @@ def set_country(data):
 
 
 def is_applying(data, ruleset):
-    countries = ruleset.values_list('country', flat=True)
+    countries = [country
+                 for country in ruleset.values_list('country', flat=True)
+                 if country is not None]
     if data['country'] in countries:
         return True
-    ip_subnets = ruleset.values_list('rhost', flat=True)
-    ip_subnets = [ipaddress.ip_network(ip) for ip in ip_subnets]
+    ip_subnets = [ipaddress.ip_network(ip)
+                  for ip in ruleset.values_list('rhost', flat=True)
+                  if ip is not None]
     for subnet in ip_subnets:
-        if data['rhost'] in subnet:
+        if ipaddress.ip_address(data['rhost']) in subnet:
             return True
 
 

@@ -1,11 +1,9 @@
 from rest_framework import serializers
 from .services import check_record
-from records.models import Record, BlackListRule, WhitelistRule
+from records.models import Record
 
 
 class RecordSerializer(serializers.ModelSerializer):
-    blacklist = BlackListRule.objects.all()
-    whitelist = WhitelistRule.objects.all()
 
     class Meta:
         fields = ('id', 'timestamp', 'service', 'user',
