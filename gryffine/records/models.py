@@ -14,7 +14,7 @@ class Record(models.Model):
     is_successful = models.BooleanField(default=True)
     is_suspicious = models.BooleanField(null=True, blank=True)
     
-  def __str__(self):
+    def __str__(self):
         message_text = ''
         if self.is_successful:
             message_text += 'Detected successful login '
