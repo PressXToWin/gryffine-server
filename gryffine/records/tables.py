@@ -5,11 +5,11 @@ from .models import Record
 
 class LogsTable(tables.Table):
     is_successful = tables.columns.Column(visible=False)
+    id = tables.columns.Column(visible=False)
     timestamp = tables.DateTimeColumn(format='Y-m-d H:i:s')
 
     class Meta:
         model = Record
-        exclude = ('id', )
         row_attrs = {
             "style": lambda record: "background-color: gray" if not record.is_successful
             else "background-color: orange" if record.is_suspicious is None
