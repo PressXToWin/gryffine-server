@@ -5,6 +5,15 @@ import requests
 from users.models import ExtendedUser
 
 
+def send_notify(record):
+    if record.is_successful or settings.NOTIFY_NOT_SUCCESSFUL:
+        if record.is_suspicious or (
+                record.is_suspicious is None and settings.NOTIFY_UNKNOWN_SUSPICIOUS) or (
+                record.is_suspicious is False and settings.NOTIFY_NOT_SUSPICIOUS):
+            telegram_notify(str(record))
+            email_notify(str(record))
+
+
 def telegram_notify(message):
     if settings.TELEGRAM_TOKEN:
         ids = _get_tg_ids()

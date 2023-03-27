@@ -1,7 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 
-from records.notifiers import telegram_notify, email_notify
+from records.notifiers import send_notify
 
 
 class Record(models.Model):
@@ -29,8 +29,7 @@ class Record(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        telegram_notify(str(self))
-        email_notify(str(self))
+        send_notify(self)
 
 
 class Rule(models.Model):
