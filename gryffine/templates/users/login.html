@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
+{% load user_filters %}
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card">
@@ -10,7 +11,7 @@
         <div class="card-body">
           {% if form.errors %}
               {% for field in form %}
-                {% for error in field.errors %}            
+                {% for error in field.errors %}
                   <div class="alert alert-danger">
                     {{ error|escape }}
                   </div>
@@ -32,7 +33,7 @@
 
           {% for field in form %}
             <div class="form-group row my-3"
-              {% if field.field.required %} 
+              {% if field.field.required %}
                 aria-required="true"
               {% else %}
                 aria-required="false"
@@ -45,7 +46,7 @@
                   {% endif %}
               </label>
               <div>
-              {{ field }}
+              {{ field|addclass:'form-control' }}
                 {% if field.help_text %}
                   <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
                     {{ field.help_text|safe }}
@@ -58,10 +59,11 @@
             <button type="submit" class="btn btn-primary">
               Login
             </button>
+            </a>
           </div>
           </form>
-        </div> <!-- card body -->
-      </div> <!-- card -->
-    </div> <!-- col -->
-</div> <!-- row -->
+        </div>
+      </div>
+    </div>
+</div>
 {% endblock %}

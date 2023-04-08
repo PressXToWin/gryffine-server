@@ -36,6 +36,7 @@ LOGIN_REDIRECT_URL = 'records:index'
 # Application definition
 
 INSTALLED_APPS = [
+    'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'api.apps.ApiConfig',
     'django_tables2',

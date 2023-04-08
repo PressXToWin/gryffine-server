@@ -1,10 +1,10 @@
 {% load static %}
 <header>
-    <nav class="navbar navbar-dark" style="background-color: #2c3e50">
+    <nav class="navbar" style="background-color:whitesmoke">
         <div class="container">
             <a class="navbar-brand" href="{% url 'records:index' %}">
                 <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-                <span style="color:whitesmoke">Gryffine</span>
+                <span style="color:#2c3e50">Gryffine</span>
             </a>
             <ul class="nav nav-pills">
                 {% if user.is_authenticated %}
