@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.core.mail import send_mail
+from django.contrib.auth import get_user_model
 import requests
 
-from users.models import ExtendedUser
+User = get_user_model()
 
 
 def send_notify(record):
@@ -34,12 +35,12 @@ def email_notify(message):
 
 
 def _get_tg_ids():
-    ids = ExtendedUser.objects.all().values_list('telegram_id', flat=True)
+    ids = User.objects.all().values_list('telegram_id', flat=True)
     ids = tuple(filter(None, ids))
     return ids
 
 
 def _get_emails():
-    emails = ExtendedUser.objects.all().values_list('user__email', flat=True)
+    emails = User.objects.all().values_list('user__email', flat=True)
     emails = tuple(filter(None, emails))
     return emails
