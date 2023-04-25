@@ -1,3 +1,4 @@
+from django.conf import settings
 from records.models import BlackListRule, WhitelistRule
 import ipaddress
 import requests
@@ -21,14 +22,19 @@ def is_applying(data, ruleset):
                   for ip in ruleset.values_list('rhost', flat=True)
                   if ip is not None]
     for subnet in ip_subnets:
-        if ipaddress.ip_address(data['rhost']) in subnet:
+        if data['rhost'] is not None and ipaddress.ip_address(
+                data['rhost']) in subnet:
             return True
 
 
 def check_rules(data):
     blacklist = BlackListRule.objects.all()
     whitelist = WhitelistRule.objects.all()
-    if is_applying(data, whitelist):
+    if settings.CONSIDER_LOCAL_WHITELISTED and (
+            data['rhost'] is None
+            or ipaddress.ip_address(data['rhost']).is_private):
+        data['is_suspicious'] = False
+    elif is_applying(data, whitelist):
         data['is_suspicious'] = False
     elif is_applying(data, blacklist):
         data['is_suspicious'] = True
