@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'django_tables2',
     'rest_framework',
+    'bootstrap3',
     'records.apps.RecordsConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

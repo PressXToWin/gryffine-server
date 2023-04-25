@@ -9,11 +9,14 @@
             <ul class="nav nav-pills">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link link-light" href="{% url 'users:logout' %}">Logout</a>
+                        <a class="nav-link link-dark" href="{% url 'records:search' %}">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-dark" href="{% url 'users:logout' %}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link link-light active"
+                        <a class="nav-link link-dark active"
                            href="{% url 'users:login' %}">Login</a>
                     </li>
                 {% endif %}

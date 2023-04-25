@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% load bootstrap3 %}
     {% load django_tables2 %}
     {% load i18n %}
     <div style="text-align: right">
@@ -13,6 +14,13 @@
         <a href="{% querystring "per_page"=option %}" class="btn btn-outline-primary">{{ option }}</a>
     {% endfor %}
     </div>
+
+    {% if filter %}
+        <form action="" method="get" class="form form-inline">
+            {% bootstrap_form filter.form layout='inline' %}
+            {% bootstrap_button 'filter' %}
+        </form>
+    {% endif %}
     <br>
     {% block table-wrapper %}
         <div class="table-container">
@@ -48,7 +56,7 @@
                                     {% endfor %}
                                 </tr>
                             {% endblock table.tbody.row %}
-                            {% empty %}
+                        {% empty %}
                             {% if table.empty_text %}
                                 {% block table.tbody.empty_text %}
                                     <tr>
