@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .services import check_record
+
 from records.models import Record
+
+from .services import check_record
 
 
 class RecordSerializer(serializers.ModelSerializer):

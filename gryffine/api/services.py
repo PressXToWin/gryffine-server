@@ -1,7 +1,9 @@
-from django.conf import settings
-from records.models import BlackListRule, WhitelistRule
 import ipaddress
+
 import requests
+from django.conf import settings
+
+from records.models import BlackListRule, WhitelistRule
 
 
 def set_country(data):
@@ -31,7 +33,7 @@ def check_rules(data):
     blacklist = BlackListRule.objects.all()
     whitelist = WhitelistRule.objects.all()
     if settings.CONSIDER_LOCAL_WHITELISTED and (
-            data['rhost'] is None
+            not data['rhost']
             or ipaddress.ip_address(data['rhost']).is_private):
         data['is_suspicious'] = False
     elif is_applying(data, whitelist):
