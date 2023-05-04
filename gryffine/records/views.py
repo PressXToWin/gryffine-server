@@ -19,7 +19,8 @@ def index(request):
     RequestConfig(request).configure(table)
     export_formats = ("csv", "xls")
     export_format = request.GET.get("_export", None)
-    table.visible = ('timestamp', 'service', 'user', 'rhost', 'country', 'is_suspicious')
+    table.visible = ('timestamp', 'service', 'user',
+                     'rhost', 'country', 'is_suspicious')
     if TableExport.is_valid_format(export_format):
         exporter = TableExport(export_format, table)
         return exporter.response("table.{}".format(export_format))
@@ -45,7 +46,8 @@ def search(request):
     RequestConfig(request).configure(table)
     export_formats = ("csv", "xls")
     export_format = request.GET.get("_export", None)
-    table.visible = ('timestamp', 'service', 'user', 'rhost', 'country', 'is_suspicious')
+    table.visible = ('timestamp', 'service', 'user',
+                     'rhost', 'country', 'is_suspicious')
     if TableExport.is_valid_format(export_format):
         exporter = TableExport(export_format, table)
         return exporter.response("table.{}".format(export_format))

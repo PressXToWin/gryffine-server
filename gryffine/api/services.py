@@ -10,7 +10,9 @@ def set_country(data):
     if data['rhost'] is None or ipaddress.ip_address(data['rhost']).is_private:
         country = None
     else:
-        country = requests.get(f"https://ipapi.co/{data['rhost']}/country/").text
+        country = requests.get(
+            f"https://ipapi.co/{data['rhost']}/country/"
+        ).text
     data['country'] = country
 
 

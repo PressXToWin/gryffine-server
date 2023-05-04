@@ -13,14 +13,15 @@ class Record(models.Model):
     country = CountryField(null=True, blank=True)
     is_successful = models.BooleanField(default=True)
     is_suspicious = models.BooleanField(null=True, blank=True)
-    
+
     def __str__(self):
         message_text = ''
         if self.is_successful:
             message_text += 'Detected successful login '
         else:
             message_text += 'Detected failed login '
-        message_text += f'to {self.hostname} with username {self.user} through {self.service}. \n'
+        message_text += f'to {self.hostname} with username '
+        message_text += f'{self.user} through {self.service}. \n'
         if self.rhost is not None:
             message_text += f'Remote IP: {self.rhost}'
         if self.country.code is not None:

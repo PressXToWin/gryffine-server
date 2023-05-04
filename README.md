@@ -40,6 +40,12 @@ pip install -r requirements.txt
 
 ```cp gryffine/gryffine/.env.example gryffine/gryffine/.env```
 
+Создаём и применяем миграции
+
+```python3 manage.py makemigrations```
+
+```python3 manage.py migrate```
+
 Создаём суперпользователя
 
 ```python3 manage.py createsuperuser```
