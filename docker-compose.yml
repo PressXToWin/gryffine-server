@@ -18,7 +18,7 @@ services:
       retries: 5
 
   backend:
-    image: pressxtowin7/gryffine_server
+    image: pressxtowin7/gryffine-server
     env_file: .env
     volumes:
       - gryffine_static:/static
