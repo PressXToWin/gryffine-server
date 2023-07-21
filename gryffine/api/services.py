@@ -1,18 +1,19 @@
 import ipaddress
 
-import requests
+import geoip2.database as db
 from django.conf import settings
 
 from records.models import BlackListRule, WhiteListRule
 
+country_reader = db.Reader('./data/GeoLite2-Country.mmdb')
+
 
 def set_country(data):
-    if data['rhost'] is None or ipaddress.ip_address(data['rhost']).is_private:
+    ip = data['rhost']
+    if not ip or ip is None or ipaddress.ip_address(ip).is_private:
         country = None
     else:
-        country = requests.get(
-            f"https://ipapi.co/{data['rhost']}/country/"
-        ).text
+        country = country_reader.country(ip).country.iso_code
     data['country'] = country
 
 
