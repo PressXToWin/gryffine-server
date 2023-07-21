@@ -1,0 +1,37 @@
+version: '3.3'
+
+volumes:
+  gryffine_pg_data:
+  gryffine_static:
+
+services:
+  db:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - gryffine_pg_data:/var/lib/postgresql/data
+    restart: on-failure
+    healthcheck:
+      test: pg_isready -U gryffine
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: pressxtowin7/gryffine_server
+    env_file: .env
+    volumes:
+      - gryffine_static:/static
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:1.19.3
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - gryffine_static:/usr/share/nginx/html/
+    depends_on:
+      - backend
