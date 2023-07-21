@@ -77,5 +77,12 @@ pip install -r requirements.txt
 }
 ```
 
+## LICENSE
+
+[MIT Licensed](https://github.com/PressXToWin/gryffine-server/blob/main/LICENSE)
+
+This product includes GeoLite2 data created by MaxMind, available from [maxmind.com](https://www.maxmind.com).
+
+
 ## TODO
 Система полностью функциональна, однако нужно запаковать в docker-контейнер.
