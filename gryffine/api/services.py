@@ -5,7 +5,13 @@ from django.conf import settings
 
 from records.models import BlackListRule, WhiteListRule
 
-country_reader = db.Reader('./data/GeoLite2-Country.mmdb')
+
+def get_country_reader():
+    try:
+        country_reader = db.Reader('./data/GeoLite2-Country.mmdb')
+    except FileNotFoundError:
+        country_reader = db.Reader('./data/GeoLite2-Country-fallback.mmdb')
+    return country_reader
 
 
 def set_country(data):
@@ -13,7 +19,7 @@ def set_country(data):
     if not ip or ip is None or ipaddress.ip_address(ip).is_private:
         country = None
     else:
-        country = country_reader.country(ip).country.iso_code
+        country = get_country_reader().country(ip).country.iso_code
     data['country'] = country
 
 
