@@ -3,7 +3,7 @@ name: Main Gryffine workflow
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
 
