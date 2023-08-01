@@ -42,5 +42,5 @@ class BlackListRule(Rule):
     pass
 
 
-class WhitelistRule(Rule):
+class WhiteListRule(Rule):
     pass

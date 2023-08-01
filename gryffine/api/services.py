@@ -1,18 +1,25 @@
 import ipaddress
 
-import requests
+import geoip2.database as db
 from django.conf import settings
 
-from records.models import BlackListRule, WhitelistRule
+from records.models import BlackListRule, WhiteListRule
+
+
+def get_country_reader():
+    try:
+        country_reader = db.Reader('./data/GeoLite2-Country.mmdb')
+    except FileNotFoundError:
+        country_reader = db.Reader('./data/GeoLite2-Country-fallback.mmdb')
+    return country_reader
 
 
 def set_country(data):
-    if data['rhost'] is None or ipaddress.ip_address(data['rhost']).is_private:
+    ip = data['rhost']
+    if not ip or ip is None or ipaddress.ip_address(ip).is_private:
         country = None
     else:
-        country = requests.get(
-            f"https://ipapi.co/{data['rhost']}/country/"
-        ).text
+        country = get_country_reader().country(ip).country.iso_code
     data['country'] = country
 
 
@@ -33,7 +40,7 @@ def is_applying(data, ruleset):
 
 def check_rules(data):
     blacklist = BlackListRule.objects.all()
-    whitelist = WhitelistRule.objects.all()
+    whitelist = WhiteListRule.objects.all()
     if settings.CONSIDER_LOCAL_WHITELISTED and (
             not data['rhost']
             or ipaddress.ip_address(data['rhost']).is_private):

@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             bases=('records.rule',),
         ),
         migrations.CreateModel(
-            name='WhitelistRule',
+            name='WhiteListRule',
             fields=[
                 ('rule_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='records.rule')),
             ],

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import BlackListRule, WhitelistRule
+from .models import BlackListRule, WhiteListRule
 
-admin.site.register(WhitelistRule)
+admin.site.register(WhiteListRule)
 admin.site.register(BlackListRule)
