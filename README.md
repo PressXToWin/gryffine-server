@@ -1,21 +1,21 @@
 # Gryffine
 
-Monitoring and audit login tries system for *nix-like OS (server-side).
+Login Attempts Monitoring and Auditing System for *nix-like OS (server-side).
 
-## Possibilities
-* Monitor and log login attempts in real time
-* Determining the level of potential danger according to pre-established rules
-* Notofication about login by Telegram or e-mail
-* Log export in popular formats (csv, xls)
+## Features
+* Real-time tracking and logging of login attempts
+* Determining the potential danger level based on predefined rules
+* Notification about login by Telegram or e-mail
+* Exporting logs in popular formats (csv, xls)
 * Log search and filtering
 
 ## How it works
-On client side installed [PAM-script](https://github.com/PressXToWin/gryffine-client), which on login try sending json with information about try-out at server endpoint. It doesn't matter which interface using, for example it suitable for local logins by tty or desktop manager, login through ssh or privilege escalation by sudo/su. Next, in case of remote login not from local subnets, that system checking country of remote IP origin (usung database [MaxMind's GeoLite2](https://dev.maxmind.com/geoip/geoip2/geolite2/)). Next, system checking login try by whitelist/blacklist rules and depending on check results login try being marked as suspicious or trustful.
+On client machines, a [PAM-script](https://github.com/PressXToWin/gryffine-client) is installed, which sends JSON with login information to the API endpoint of the server when a login attempt is made. It doesn't matter which interface using, for example it suitable for local logins by tty or desktop manager, login through ssh or privilege escalation by sudo/su. In the case of remote logins from non-local IP ranges, the IP address is used to determine the country of the login attempt (using the MaxMind's GeoLite2 database). Then, the login attempt is checked by predefined rules (whitelist/blacklist), and based on the result, it is either marked as a suspicious login or trustful.
 
 ## Interface
 ![](docs/webinterface.png?raw=true)
 
-Log records has color difference. In case if successful login is in blacklist rule, record marked with red, in case if successful login is in whitelist rule or login come from local IP range, record marked with green. Successful login tries which not suits any rule marked with yellow. Unsuccessful login tries are gray, despite rules.
+Log records has color difference. If a successful login matches the blacklist rules, the entry is marked in red. If it matches the whitelist rules or if the login comes from local IP addresses, it is marked in green. Succesful logins that don't match any rules are marked in yellow. Unsuccessful logins are displayed in gray, regardless of whether they are in the blacklist or whitelist.
 
 It is possible to set notifications through Telegram-bot or email.
 
@@ -25,24 +25,40 @@ It is possible to set notifications through Telegram-bot or email.
 
 ## Installation
 
-## Setting rules and notifications
-Rules and notifications setting at admin-panel on address http://127.0.0.1:8080/admin/
+ - Clone the repository on the server.
 
-It is possible to set the rules by country of IP or by network mask.
+```git clone https://github.com/PressXToWin/gryffine-server.git```
+
+ - Rename the .env.example file to .env and fill in the necessary information.
+ - Create and run Docker containers by executing the following command on the server:
+```
+docker compose up -d
+```
+- After successful setup, create a superuser:
+```
+docker compose exec backend python manage.py createsuperuser
+```
+
+The server will be accessible at http://127.0.0.1:8080/
+
+## Setting rules and notifications
+Rules and notifications can be configured in the admin panel at http://127.0.0.1:8080/admin/
+
+You can set up rules based on the country of the IP or subnet masks.
 ![](docs/rules.png?raw=true)
 
-Notifications setting up when user profile being edited. In case when you need notifications by Telegram, you need to write to set Telegram ID in profile, same as email.
+Notifications setting up when user profile being edited. In case when you need notifications by Telegram, you need to specify Telegram ID in profile, and the same applies to email notifications.
 ![](docs/notify.png?raw=true)
 
 ## API
-Endpoind ```http://127.0.0.1:8080/api/v1/records/``` accept POST-requests in format:
+The endpoind ```http://127.0.0.1:8080/api/v1/records/``` accepts POST requests in format:
 ```
 {
     "service": "",          # the service through which the login attempt occurs
     "user": "",             # user login
-    "hostname": "",         # hostname of the server
-    "rhost": "",            # Remote IP, which trying to log in, may be empty
-    "is_successful": false  # If login try is successful
+    "hostname": "",         # machine hostname that the login is performed on
+    "rhost": "",            # IP from which the request is made, can be empty
+    "is_successful": false  # whether the attempt is successful or not
 }
 ```
 
