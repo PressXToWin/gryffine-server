@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    telegram_id = models.IntegerField(null=True, blank=True)
+    telegram_id = models.BigIntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     date_joined = models.DateTimeField(
         default=timezone.now,
