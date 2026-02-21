@@ -29,7 +29,7 @@ python-dotenv==1.0.0
 pytz==2023.3
 requests==2.31.0
 soupsieve==2.4.1
-sqlparse==0.4.4
+sqlparse==0.5.4
 tablib==3.5.0
 typing_extensions==4.7.1
 urllib3==2.0.7
