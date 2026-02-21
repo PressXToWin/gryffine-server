@@ -27,7 +27,7 @@ pycodestyle==2.10.0
 pyflakes==3.0.1
 python-dotenv==1.0.0
 pytz==2023.3
-requests==2.31.0
+requests==2.32.4
 soupsieve==2.4.1
 sqlparse==0.5.4
 tablib==3.5.0
