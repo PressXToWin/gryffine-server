@@ -16,7 +16,7 @@ flake8==6.0.0
 frozenlist==1.4.0
 geoip2==4.7.0
 gunicorn==23.0.0
-idna==3.4
+idna==3.7
 isort==5.12.0
 maxminddb==2.4.0
 mccabe==0.7.0
